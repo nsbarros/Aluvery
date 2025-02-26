@@ -1,17 +1,15 @@
 package br.com.nsbarros.android.compose.aluvery
 
+import ProductItem
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import br.com.nsbarros.android.compose.aluvery.ui.theme.AluveryTheme
+import sampleProducts
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,29 +17,22 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AluveryTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                App()
             }
         }
     }
 }
 
+
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun App(modifier: Modifier = Modifier) {
+    ProductItem(
+        sampleProducts[0],
+        Modifier)
 }
 
-@Preview(showBackground = true)
+@Preview(name = "AppPreview", showBackground = true)
 @Composable
-fun GreetingPreview() {
-    AluveryTheme {
-        Greeting("Android")
-    }
+private fun AppPreview() {
+        App()
 }
