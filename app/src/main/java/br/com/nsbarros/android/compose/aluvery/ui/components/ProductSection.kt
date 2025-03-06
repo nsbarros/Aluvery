@@ -16,13 +16,14 @@ import br.com.nsbarros.android.compose.aluvery.model.Product
 @Composable
 fun ProductSection(name: String, products: List<Product>, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Text(name, Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp ),
+        Text(name, Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp ),
             fontSize = 20.sp,
             fontWeight = FontWeight(400),
 
         )
-        LazyRow(contentPadding = PaddingValues(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp)) {
             items(products){ produto ->
                 ProductItem(produto)
             }
