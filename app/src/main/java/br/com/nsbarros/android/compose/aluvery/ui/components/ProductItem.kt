@@ -1,4 +1,3 @@
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -19,7 +19,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,17 +31,20 @@ import br.com.nsbarros.android.compose.aluvery.R
 import br.com.nsbarros.android.compose.aluvery.model.Product
 import br.com.nsbarros.android.compose.aluvery.ui.theme.Purple40
 import br.com.nsbarros.android.compose.aluvery.ui.theme.PurpleGrey40
+import coil3.compose.AsyncImage
 
 @Composable
 fun ProductItem(product: Product, modifier: Modifier = Modifier) {
-    Surface(shape = RoundedCornerShape(15.dp),
+    Surface(
+        shape = RoundedCornerShape(15.dp),
         shadowElevation = 5.dp,
-        modifier = modifier) {
+        modifier = modifier
+    ) {
 
         Column(
             modifier = Modifier
                 .width(200.dp)
-                .heightIn(250.dp, 300.dp)
+                .heightIn(260.dp, 260.dp)
                 .verticalScroll(rememberScrollState())
         ) {
 
@@ -56,23 +61,24 @@ fun ProductItem(product: Product, modifier: Modifier = Modifier) {
                         )
                     )
             ) {
-                Image(
-                    painter = painterResource(
-                        R.drawable.ic_launcher_background,
-                    ),
-                    "Imagem do produto",
-                    Modifier
+                AsyncImage(
+                    model = product.image,
+                    contentDescription = stringResource(id = R.string.description_image_product),
+                    modifier = Modifier
                         .offset(x = (sizeImage / 2), y = (sizeImage / 2))
+                        .size(sizeImage)
                         .clip(shape = CircleShape)
-                        .align(Alignment.CenterStart)
-
+                        .align(Alignment.CenterStart),
+                    contentScale = ContentScale.Crop,
+                    placeholder = painterResource(R.drawable.placeholder),
                 )
             }
 
             Spacer(Modifier.height(sizeImage / 2))
 
             Column(Modifier.padding(16.dp)) {
-                Text( product.name,
+                Text(
+                    product.name,
                     fontSize = 18.sp,
                     fontWeight = FontWeight(700),
                     maxLines = 2,
@@ -86,6 +92,17 @@ fun ProductItem(product: Product, modifier: Modifier = Modifier) {
                 )
             }
 
+            product.description?.let {
+                Box(Modifier.background(color = Purple40).padding(16.dp)) {
+                    Text(
+                        product.description,
+                        Modifier.padding(16.dp),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight(400)
+                    )
+                }
+            }
+
         }
 
     }
@@ -94,6 +111,8 @@ fun ProductItem(product: Product, modifier: Modifier = Modifier) {
 @Preview(name = "ProductItemPreview", showBackground = true)
 @Composable
 private fun ProductItemPreview() {
-    ProductItem(sampleProducts[0],
-        Modifier)
+    ProductItem(
+        sampleProducts[0],
+        Modifier
+    )
 }
